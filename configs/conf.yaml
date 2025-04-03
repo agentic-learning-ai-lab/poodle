@@ -1,0 +1,24 @@
+defaults:
+  - _self_
+  - exp: ???
+
+base_output_dir: /scratch/${oc.env:USER}/flow-ssl # TODO Modify this to adjust where the experiments are stored
+
+experiment: ???
+sub_dir: ${experiment}
+name: ???
+
+experiment_dir: ${hydra:run.dir}
+
+hydra:
+  mode: RUN
+  job:
+    name: ${name}
+  callbacks:
+    log_job_return_callback:
+      _target_: main.LogJobReturnCallback
+  run: 
+    dir: ${base_output_dir}/${sub_dir}/${hydra.job.name}
+  sweep: # Naming convention for slurm sweep (or non-sweep jobs)
+    dir: ${hydra.run.dir}
+    subdir: ""

@@ -1,0 +1,96 @@
+# @package _global_
+
+defaults:
+  - _self_
+
+experiment: train_uflow
+
+# experiment args
+device: cuda
+seed: 1
+resume: null
+resume_training: True
+start_epoch: 0
+print_freq: 20
+checkpoint_freq: 10
+eval: True
+eval_freq: 4
+vis: True
+vis_freq: 4
+wandb: True
+wandb_project: poodle
+benchmark: True
+
+# distributed args
+distributed: True
+
+# training args
+epochs: 200
+occ_start_epochs: 4
+selfsup_start_epochs: 80
+selfsup_warmup_epochs: 5
+
+# optimizer parameters
+clip_grad: null
+optimizer: adam
+weight_decay: 0.
+lr: 1e-4
+lr_scheduler: constant
+blr: null
+min_lr: 0.
+warmup_epochs: 0.
+fp16: False
+
+# data parameters
+num_workers: null
+pin_memory: True
+
+dataset: kitti_mv
+batch_size: 16
+dataset_configs: 
+  data_dir: '/vast/anw2067/kitti/kitti2015_multiview_extension'
+  split: train
+  img_size: [256, 512]
+  photometric: True
+
+eval_dataset: kitti
+eval_batch_size: 1
+eval_dataset_configs:
+  data_dir: '/scratch/ch3451/datasets/kitti-flow-2015/data_scene_flow'
+  split: eval
+  img_size: null
+
+model: uflow
+model_configs:
+  backbone: pwc
+  estimator_modules: 1_none-4_flow
+  flow_predictor_width: base
+  inference_res: [256, 512]
+  downproj_feat: null
+  pre_corr_norm: norm
+  inter_conv_norm: False
+  leaky_relu_alpha: 0.1
+  dropout_p: 0.1
+  corr_patch_size: 9
+  context_dim: 32
+  refinement_module: True
+  refinement_module_dims: base
+  selfsup_params:
+    crop: [64, 128]
+    ema: 0. # no EMA
+    teacher_unaug: True
+    fb_sigma_student: 0.03
+    fb_sigma_teacher: 0.003
+    stop_student_encoder_gradient: False
+  alpha1: 0.01
+  alpha2: 0.5
+  smoothness_level: pred
+  smoothness_lambda: 150
+  smoothness_order: 2
+
+loss_weights:
+  recon_l1: 0.
+  recon_l2: 0.
+  recon_ssim: 1.
+  smoothness: 2.
+  selfsup: 0.6

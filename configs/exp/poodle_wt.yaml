@@ -1,0 +1,104 @@
+# @package _global_
+
+defaults:
+  - _self_
+
+experiment: train
+sub_dir: poodle
+
+# experiment args
+benchmark: True
+device: cuda
+seed: 1
+resume: null
+resume_training: True
+start_epoch: 0
+checkpoint_freq: 1
+print_freq: 50
+eval: False
+eval_freq: 1000
+vis: False
+vis_freq: 1000
+wandb: True
+wandb_project: poodle
+
+# routines
+train_routine: poodle_train_one_epoch
+eval_routine: poodle_evaluate
+visualize_routine: poodle_visualize_batch
+
+# distributed args
+distributed: True
+dist_eval: False
+
+# training args
+epochs: 300
+accum_iter: 1
+base_momentum: 0.996
+
+# data parameters
+dataset: walking_tours
+batch_size: 2
+dataset_configs:
+  data_dir: '/scratch/ch3451/datasets/vast/walking-tours/Venice'
+  delta_t: [15,15]
+  frames_per_clip: 300
+  repeat_sample: 2
+  initial_size: [1080, 1920]
+  initial_scale: [0.535, 0.625]
+  initial_crop_size: [512, 1024]
+  color_distortion_strength: 1.0
+  norm_mean: [0.485, 0.456, 0.406]
+  norm_std: [0.229, 0.224, 0.225]
+  backend: torchvision-videoreader
+  dataset_repeats: 75
+
+eval_dataset: kitti
+eval_dataset_configs:
+  data_dir: '/scratch/ch3451/datasets/kitti-flow-2015/data_scene_flow'
+  img_size: [256, 832]
+  norm_mean: [0, 0, 0]
+  norm_std: [1, 1, 1]
+
+num_workers: null
+pin_memory: True
+
+# model parameters
+model: poodle
+model_configs:
+  backbone_type: resnet50
+  flow_model_checkpoint: '/scratch/ch3451/models/raft/raft-things.pth'
+  affine_aug_params:
+    degrees: [-10, 10]
+    scale: [0.9, 1.1]
+  mlp_hidden_dim: 4096
+  proj_dim: 256
+  # occlusion
+  occlusion_masking: True
+  alpha1: 0.1
+  alpha2: 0.5
+  # pooled objective
+  subcrop_num_pair: 6
+  subcrop_num_same: 0
+  subcrop_size: [192, 192]
+  subcrop_scale: [0.05, 0.3]
+  subcrop_ratio: [0.75, 1.3333]
+  subcrop_jitter: 0.10
+  # spatial decoder
+  decoder_dims: [2048, 2048]
+  decoder_hidden_dim_factor: 0.5
+
+# loss weights
+loss_weights: 
+  dense: 0.5
+  pooled: 0.5
+
+# optimizer parameters
+optimizer: adamw
+clip_grad: null
+weight_decay: 1e-2
+lr: 5e-4
+blr: null
+min_lr: 0.
+warmup_epochs: 2
+fp16: False
