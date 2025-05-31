@@ -1,11 +1,11 @@
 # PooDLe: Pooled and dense self-supervised learning from naturalistic videos
-
 ### [Paper](https://arxiv.org/abs/2408.11208) | [Website](https://agenticlearning.ai/poodle)
 
-This project hosts the code for implementing the PooDLe framework for self-supervised learning from videos.
+This project hosts the code for implementing the PooDLe (ICLR 2025) framework for self-supervised learning from videos.
 
 > [**PooDLe: Pooled and dense self-supervised learning from naturalistic videos**](https://arxiv.org/abs/2408.11208)<br>
 > [Alex N. Wang*](https://www.alexn.wang/), [Christopher Hoang*](https://www.chrishoang.com/), [Yuwen Xiong](https://www.cs.toronto.edu/~yuwen), [Yann LeCun](https://yann.lecun.com/), [Mengye Ren](https://mengyeren.com/)<br>
+> International Conference on Learning Representations 2025<br>
 > *arXiv preprint ([arXiv 2408.11208](https://arxiv.org/abs/2408.11208))*
 
 ## Pretrained models
@@ -147,9 +147,10 @@ See the [LICENSE](./LICENSE) file for details about the license under which this
 ## Citation
 If you find this repository useful in your research, please consider giving a star :star: and a citation:
 ```
-@article{2024poodle,
+@inproceedings{wang_hoang:2025:poodle,
   title={PooDLe: Pooled and dense self-supervised learning from naturalistic videos}, 
     author={Alex N. Wang and Chris Hoang and Yuwen Xiong and Yann LeCun and Mengye Ren},
-  journal={arXiv preprint arXiv:2408.11208},
-  year={2024}
+  booktitle={International Conference on Learning Representations},  
+  year={2025}
 }
+```
